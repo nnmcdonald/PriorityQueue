@@ -1,13 +1,19 @@
-// A priority queue implemented as a Min Heap
+import java.util.*;
+import java.lang.Integer;
+
+// A priority queue implemented as a min heap with an ArrayList
 public class PriorityQueue {
-	private HeapNode head;
+	private ArrayList<Integer> heap;
+	private int heapSize;
 	
-	public PriorityQueue(HeapNode node) {
-		this.head = node;
+	public PriorityQueue(int headValue) {
+		this.heap = new ArrayList<Integer>();
+		this.heap.add(headValue);
+		this.heapSize = 1;
 	}
 
 	public int peek() {
-		return this.head.getVal();
+		return this.heap.get(0);
 	}
 	
 	public int dequeue() {
@@ -16,13 +22,30 @@ public class PriorityQueue {
 		return val;
 	}
 	
+	// Adds value to PriorityQueue
 	public void enqueue(int value) {
-		// TODO insert new node with value and balance tree if necessary
+		//  Add value to end of heap
+		heap.add(value);
+		
+		// Swap the inserted value with its parent if it is < parent
+		// repeat until value percolates to correct position in heap
+		int i = this.heapSize;
+		while(i > 0) {
+			int parentIndex = ((i-1)/2);
+			if(heap.get(i) < heap.get(parentIndex)) {
+				swap(i, parentIndex);
+				i = parentIndex;
+			}
+			else {
+				break;
+			}
+		}
+		heapSize++;
 	}
 	
-	private void swapNodes(HeapNode firstNode, HeapNode secondNode) {
-		int temp = firstNode.getVal();
-		firstNode.setVal(secondNode.getVal());
-		secondNode.setVal(temp);
+	private void swap(int firstIndex, int secondIndex) {
+		int temp = this.heap.get(firstIndex);
+		this.heap.set(firstIndex, this.heap.get(secondIndex));
+		this.heap.set(secondIndex, temp);
 	}
 }
