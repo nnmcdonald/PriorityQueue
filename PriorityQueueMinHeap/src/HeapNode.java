@@ -15,6 +15,10 @@ public class HeapNode {
 		return this.value;
 	}
 	
+	public void setVal(int value) {
+		this.value = value;
+	}
+	
 	public HeapNode getLeft() {
 		return this.left;
 	}
