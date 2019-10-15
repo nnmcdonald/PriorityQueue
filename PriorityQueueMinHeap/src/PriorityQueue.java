@@ -46,7 +46,15 @@ public class PriorityQueue {
 			
 			// Stop if current is a leaf node
 			// or if current is <= its children
-			if(left >= heap.size() || left+1 >= heap.size() || 
+			
+			// Check if current has left child only,
+			// and if so check their order
+			if(left < heap.size() && left+1 >= heap.size()
+					&& (heap.get(left) < heap.get(current))) {
+				swap(current, left);
+				current = heap.size();
+			}
+			else if(left >= heap.size() || left+1 >= heap.size() || 
 					(heap.get(current) <= heap.get(left) && 
 					heap.get(current) <= heap.get(left+1))) {
 				current = heap.size();
@@ -58,9 +66,11 @@ public class PriorityQueue {
 				// than the left child
 				if(left+1 < heap.size() && heap.get(left+1) < heap.get(left)) {
 					swap(current, left+1);
+					current = left+1;
 				}
 				else {
 					swap(current, left);
+					current = left;
 				}
 			}
 		}
@@ -91,21 +101,49 @@ public class PriorityQueue {
 		return heap.size();
 	}
 	
+	// Swaps elements in heap
 	private void swap(int firstIndex, int secondIndex) {
 		int temp = this.heap.get(firstIndex);
 		this.heap.set(firstIndex, this.heap.get(secondIndex));
 		this.heap.set(secondIndex, temp);
 	}
 	
-	public static void main(String[] args) {
-		int[] a = new int[] {1,3,5,3,2,9};
+	// Used to see contents of heap in priorityQueueDemo()
+	private void printHeap() {
+		System.out.println(this.heap);
+	}
+	
+	// Used in main to demonstrate PriorityQueue
+	private static void priorityQueueDemo(int[] values) {
 		PriorityQueue q = new PriorityQueue();
-		for(int i = 0; i < a.length; i++) {
-			q.enqueue(a[i]);
+		for(int i = 0; i < values.length; i++) {
+			q.enqueue(values[i]);
 		}
 		int stop = q.size();
 		for(int i = 0; i < stop; i++) {
+			q.printHeap();
 			System.out.println(q.dequeue());
 		}
+	}
+	
+	public static void main(String[] args) {
+		int[] a = new int[] {1,3,5,3,2,9};
+		priorityQueueDemo(a);
+		System.out.println();
+		
+		a = new int[] {1,2,3,4,5};
+		priorityQueueDemo(a);
+		System.out.println();
+		
+		a = new int[] {9,7,5,3,2,1};
+		priorityQueueDemo(a);
+		System.out.println();
+		
+		a = new int[] {1,3,5,3,2,9};
+		priorityQueueDemo(a);
+		System.out.println();
+		
+		a = new int[] {5,20,10,30,4,3,9,29,2};
+		priorityQueueDemo(a);
 	}
 }
