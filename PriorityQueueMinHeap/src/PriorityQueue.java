@@ -48,7 +48,8 @@ public class PriorityQueue {
 			// or if current is <= its children
 			
 			// Check if current has left child only,
-			// and if so check their order
+			// and if so check their order and swap if
+			// child is less than parent
 			if(left < heap.size() && left+1 >= heap.size()
 					&& (heap.get(left) < heap.get(current))) {
 				swap(current, left);
